@@ -1,0 +1,106 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			#parentDiv {
+				margin-top: 5rem;
+				margin-left: 20%;
+			}
+			div {
+				margin-top: 5rem;
+				margin-left: 20%;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			var parentDiv = document.createElement("div");
+
+			parentDiv.setAttribute("id", "parentDiv");
+			//creating a input type date
+			var dateEle = document.createElement("input");
+			dateEle.setAttribute("type", "date");
+			dateEle.setAttribute("id", "dob");
+
+			parentDiv.appendChild(dateEle);
+			//creating a button
+			var button = document.createElement("button");
+			button.innerHTML = "display data";
+			button.setAttribute("type", "button");
+			button.setAttribute("onclick", "dateCalculation()");
+			parentDiv.appendChild(button);
+			//document.body.append(parentDiv);
+
+			//to display the data;s we are creating another div
+
+			var div = document.createElement("div");
+
+			function dateCalculation() {
+				var input = document.querySelector("#dob").value;
+
+				if (Date.parse(input)) {
+					var inputDate = new Date(input);
+					console.log(inputDate);
+					var currentDate = new Date();
+					console.log(currentDate);
+
+					//now we going to display the millisecond difference from input date to current date
+					let millisecondDiff = currentDate.getTime() - inputDate.getTime(); //getTime returns the millisec
+					console.log(millisecondDiff);
+					//now we going to print the seconds difference
+
+					let secondsDiff = Math.floor(millisecondDiff / 1000);
+					console.log(secondsDiff);
+					//minutes
+					let minutesDiff = Math.floor(secondsDiff / 60);
+					console.log(minutesDiff);
+					//hour
+					let hourDiff = Math.floor(minutesDiff / 60);
+					console.log(hourDiff);
+					//hour to day
+					let dayDiff = Math.floor(hourDiff / 24);
+					console.log(dayDiff);
+
+					//year difference
+					var yearDiff = getfullyear(inputDate, currentDate);
+					console.log(yearDiff);
+
+					//month difference
+					var monthDiff = getfullmonth(inputDate, currentDate);
+					console.log(monthDiff);
+
+					//creating a function
+					function getfullyear(value1, value2) {
+						var date1 = new Date(value1);
+						var date2 = new Date(value2);
+						return date2.getFullYear() - date1.getFullYear();
+					}
+					//function for month difference
+					function getfullmonth(value1, value2) {
+						var year = currentDate.getFullYear() - inputDate.getFullYear();
+						var month = year * 12 + (currentDate.getMonth() - inputDate.getMonth());
+						return month;
+					}
+					div.innerHTML = `the date is ${inputDate} <br>
+                    Year difference : ${yearDiff} <br>
+                    month difference : ${monthDiff} <br>
+                    days difference : ${dayDiff} <br>
+                    hour difference : ${hourDiff} <br>
+                    minutes difference:${minutesDiff} <br>
+                    seconds difference : ${secondsDiff} <br>
+                    milliseconds difference : ${millisecondDiff} <br>`;
+				} else {
+					div.innerHTML = `the date is not valid`;
+				}
+				document.body.appendChild(div);
+			}
+			document.body.append(parentDiv);
+		</script>
+	</body>
+</html>
